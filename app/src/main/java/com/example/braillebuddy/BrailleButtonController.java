@@ -53,11 +53,11 @@ public class BrailleButtonController {
         System.out.println(dots.length);
         for (int i = 0; i < 6 && isPlaying; i++) {
             if (dots[i]) {
-                vibrator.vibrate(200);
-            } else {
                 vibrator.vibrate(50);
+            } else {
+                vibrator.vibrate(5);
             }
-            Thread.sleep(600);
+            Thread.sleep(350);
         }
     }
 
