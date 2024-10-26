@@ -51,13 +51,24 @@ public class BrailleButtonController {
 
     private void playCharacter(boolean[] dots) throws InterruptedException {
         System.out.println(dots.length);
-        for (int i = 0; i < 6 && isPlaying; i++) {
-            if (dots[i]) {
-                vibrator.vibrate(200);
-            } else {
-                vibrator.vibrate(50);
+        boolean isSpace = true;
+        for (boolean dot: dots) {
+            if (dot) {
+                isSpace = false;
+                break;
             }
-            Thread.sleep(350);
+        }
+        for (int i = 0; i < 6 && isPlaying; i++) {
+            if (isSpace) {
+                vibrator.vibrate(100);
+            } else {
+                if (dots[i]) {
+                    vibrator.vibrate(200);
+                } else {
+                    vibrator.vibrate(50);
+                }
+                Thread.sleep(350);
+            }
         }
     }
 
