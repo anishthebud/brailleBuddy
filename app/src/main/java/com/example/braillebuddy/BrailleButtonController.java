@@ -57,7 +57,7 @@ public class BrailleButtonController {
             } else {
                 vibrator.vibrate(50);
             }
-            Thread.sleep(600);
+            Thread.sleep(350);
         }
     }
 
