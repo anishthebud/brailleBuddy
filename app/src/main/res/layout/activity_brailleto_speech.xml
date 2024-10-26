@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".BrailletoSpeech">
 
-    <com.yourpackage.BrailleInputView
+    <com.yourpackage.BrailletoSpeech
         android:id="@+id/brailleInput"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
