@@ -12,24 +12,17 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Initialize the buttons
-        Button[] buttons = new Button[1];
-        buttons[0] = findViewById(R.id.button1);
-        /**
-        buttons[1] = findViewById(R.id.button2);
-        buttons[2] = findViewById(R.id.button3);
-        buttons[3] = findViewById(R.id.button4);
-        buttons[4] = findViewById(R.id.button5);
-        buttons[5] = findViewById(R.id.button6);
-         **/
-
         // Initialize the controller
-        controller = new BrailleButtonController(this, buttons);
+        controller = new BrailleButtonController(this);
 
         // Example: Add a button to start the pattern
         Button startButton = findViewById(R.id.startButton);
         startButton.setOnClickListener(v -> {
-            controller.playPattern("ab");
+            try {
+                controller.playPattern("cdjmz");
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         });
     }
 

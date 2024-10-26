@@ -1,36 +1,37 @@
 package com.example.braillebuddy;
 
+
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Vibrator;
+import android.widget.Button;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.os.Build;
-import android.os.Handler;
-import android.os.Looper;
 import android.os.VibrationEffect;
-import android.os.Vibrator;
 import android.view.animation.AccelerateDecelerateInterpolator;
-import android.widget.Button;
+
 
 public class BrailleButtonController {
     private static final long VIBRATION_DURATION = 50; // milliseconds
-    private static final long PATTERN_DELAY = 500; // delay between dots
+    private static final long PATTERN_DELAY = 100; // delay between dots
     private static final float SCALE_FACTOR = 1.2f; // how much the button grows
     private static final int ANIMATION_DURATION = 200; // milliseconds
 
     private final Context context;
-    private final Button[] buttons;
     private final Vibrator vibrator;
     private final Handler handler;
     private boolean isPlaying = false;
 
-    public BrailleButtonController(Context context, Button... buttons) {
+    public BrailleButtonController(Context context) {
         this.context = context;
-        this.buttons = buttons;
         this.vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
         this.handler = new Handler(Looper.getMainLooper());
     }
 
-    public void playPattern(String pattern) {
+
+    public void playPattern(String pattern) throws InterruptedException {
         if (isPlaying) {
             stop();
         }
@@ -42,52 +43,24 @@ public class BrailleButtonController {
         // Play each character's pattern
         for (int charIndex = 0; charIndex < braillePatterns.length && isPlaying; charIndex++) {
             final int finalCharIndex = charIndex;
-            handler.postDelayed(() -> {
-                if (isPlaying) {
-                    playCharacter(braillePatterns[finalCharIndex]);
-                }
-            }, charIndex * (PATTERN_DELAY * 8)); // Allow time for each character
+            playCharacter(braillePatterns[finalCharIndex]);
+            Thread.sleep(300);
         }
     }
 
-    private void playCharacter(boolean[] dots) {
-        for (int i = 0; i < dots.length && i < buttons.length && isPlaying; i++) {
+    private void playCharacter(boolean[] dots) throws InterruptedException {
+        System.out.println(dots.length);
+        for (int i = 0; i < 6 && isPlaying; i++) {
             if (dots[i]) {
-                final int buttonIndex = i;
-                handler.postDelayed(() -> {
-                    if (isPlaying) {
-                        animateAndVibrateButton(buttons[buttonIndex]);
-                    }
-                }, i * PATTERN_DELAY);
+                vibrator.vibrate(200);
+            } else {
+                vibrator.vibrate(50);
             }
+            Thread.sleep(500);
         }
     }
 
-    private void animateAndVibrateButton(Button button) {
-        // Scale animation
-        ObjectAnimator scaleX = ObjectAnimator.ofFloat(button, "scaleX", 1f, SCALE_FACTOR);
-        ObjectAnimator scaleY = ObjectAnimator.ofFloat(button, "scaleY", 1f, SCALE_FACTOR);
-
-        // Create animation set
-        AnimatorSet scaleUp = new AnimatorSet();
-        scaleUp.playTogether(scaleX, scaleY);
-        scaleUp.setDuration(ANIMATION_DURATION);
-        scaleUp.setInterpolator(new AccelerateDecelerateInterpolator());
-
-        // Scale down
-        ObjectAnimator scaleDownX = ObjectAnimator.ofFloat(button, "scaleX", SCALE_FACTOR, 1f);
-        ObjectAnimator scaleDownY = ObjectAnimator.ofFloat(button, "scaleY", SCALE_FACTOR, 1f);
-
-        AnimatorSet scaleDown = new AnimatorSet();
-        scaleDown.playTogether(scaleDownX, scaleDownY);
-        scaleDown.setDuration(ANIMATION_DURATION);
-        scaleDown.setInterpolator(new AccelerateDecelerateInterpolator());
-
-        // Play animations in sequence
-        AnimatorSet fullSequence = new AnimatorSet();
-        fullSequence.playSequentially(scaleUp, scaleDown);
-        fullSequence.start();
-
+    private void vibrate() {
         int durationFactor = 1;
 
         // Vibrate
@@ -98,13 +71,26 @@ public class BrailleButtonController {
         }
     }
 
+    /**
+    public void playPatterns(String text) throws InterruptedException {
+        patternsToVibrations(convertToBraillePatterns(text));
+    }
+     **/
+
+    private void patternsToVibrations(int[][] patterns) throws InterruptedException {
+        for (int[] word: patterns) {
+            for (int duration: word) {
+                vibrator.vibrate(VIBRATION_DURATION);
+            }
+        }
+    }
+
     private boolean[][] convertToBraillePatterns(String text) {
         // Simple conversion - each character gets 6 dots
         boolean[][] patterns = new boolean[text.length()][6];
 
         for (int i = 0; i < text.length(); i++) {
             char c = Character.toLowerCase(text.charAt(i));
-            // Example pattern - you can expand this based on actual Braille patterns
             switch (c) {
                 case 'a':
                     patterns[i] = new boolean[]{true, false, false, false, false, false};
@@ -112,21 +98,94 @@ public class BrailleButtonController {
                 case 'b':
                     patterns[i] = new boolean[]{true, false, true, false, false, false};
                     break;
-                // Add more character patterns as needed
+                case 'c':
+                    patterns[i] = new boolean[]{true, true, false, false, false, false};
+                    break;
+                case 'd':
+                    patterns[i] = new boolean[]{true, true, false, true, false, false};
+                    break;
+                case 'e':
+                    patterns[i] = new boolean[]{true, false, false, true, false, false};
+                    break;
+                case 'f':
+                    patterns[i] = new boolean[]{true, true, true, false, false, false};
+                    break;
+                case 'g':
+                    patterns[i] = new boolean[]{true, true, true, true, false, false};
+                    break;
+                case 'h':
+                    patterns[i] = new boolean[]{true, false, true, true, false, false};
+                    break;
+                case 'i':
+                    patterns[i] = new boolean[]{false, true, true, false, false, false};
+                    break;
+                case 'j':
+                    patterns[i] = new boolean[]{false, true, true, true, false, false};
+                    break;
+                case 'k':
+                    patterns[i] = new boolean[]{true, false, false, false, true, false};
+                    break;
+                case 'l':
+                    patterns[i] = new boolean[]{true, false, true, false, true, false};
+                    break;
+                case 'm':
+                    patterns[i] = new boolean[]{true, true, false, false, true, false};
+                    break;
+                case 'n':
+                    patterns[i] = new boolean[]{true, true, false, true, true, false};
+                    break;
+                case 'o':
+                    patterns[i] = new boolean[]{true, false, false, true, true, false};
+                    break;
+                case 'p':
+                    patterns[i] = new boolean[]{true, true, true, false, true, false};
+                    break;
+                case 'q':
+                    patterns[i] = new boolean[]{true, true, true, true, true, false};
+                    break;
+                case 'r':
+                    patterns[i] = new boolean[]{true, false, true, true, true, false};
+                    break;
+                case 's':
+                    patterns[i] = new boolean[]{false, true, true, false, true, false};
+                    break;
+                case 't':
+                    patterns[i] = new boolean[]{false, true, true, true, true, false};
+                    break;
+                case 'u':
+                    patterns[i] = new boolean[]{true, false, false, false, true, true};
+                    break;
+                case 'v':
+                    patterns[i] = new boolean[]{true, false, true, false, true, true};
+                    break;
+                case 'w':
+                    patterns[i] = new boolean[]{false, true, true, true, false, true};
+                    break;
+                case 'x':
+                    patterns[i] = new boolean[]{true, true, false, false, true, true};
+                    break;
+                case 'y':
+                    patterns[i] = new boolean[]{true, true, false, true, true, true};
+                    break;
+                case 'z':
+                    patterns[i] = new boolean[]{true, false, false, true, true, true};
+                    break;
+                case ' ':
+                    patterns[i] = new boolean[]{false, false, false, false, false, false}; // Space character
+                    break;
+                // Add more patterns for numbers, punctuation, and special characters if needed.
                 default:
-                    patterns[i] = new boolean[]{false, false, false, false, false, false};
+                    patterns[i] = new boolean[]{false, false, false, false, false, false}; // Default empty pattern
             }
         }
         return patterns;
     }
 
+
     public void stop() {
         isPlaying = false;
         handler.removeCallbacksAndMessages(null);
         // Reset all buttons to original scale
-        for (Button button : buttons) {
-            button.setScaleX(1f);
-            button.setScaleY(1f);
-        }
     }
+
 }
