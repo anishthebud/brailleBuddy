@@ -18,6 +18,8 @@
         android:layout_width="80dp"
         android:layout_height="48dp"
         android:layout_margin="16dp"
+        android:layout_marginStart="344dp"
+        android:layout_marginTop="16dp"
         android:text="1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -32,13 +34,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <Button
-        android:id="@+id/changeButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Change Mode"
-        tools:layout_editor_absoluteX="-6dp"
-        tools:layout_editor_absoluteY="640dp" />
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="150dp"

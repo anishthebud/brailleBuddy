@@ -59,17 +59,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button changeButton = findViewById(R.id.changeButton);
-        changeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, BrailletoSpeech.class);
-                startActivity(intent);
-            }
-        });
     }
 
     @Override
+
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
 
         if (requestCode == RECOGNIZER_RESULT && resultCode == RESULT_OK) {
@@ -81,6 +74,8 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+
+    }
 
     @Override
     protected void onDestroy() {
