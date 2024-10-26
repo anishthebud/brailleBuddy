@@ -33,14 +33,14 @@ public class BrailleButtonController {
     }
 
 
-    public void playPattern(String sentence) throws InterruptedException {
+    public void playPattern(String pattern) throws InterruptedException {
         if (isPlaying) {
             stop();
         }
         isPlaying = true;
 
         // Convert pattern to binary representation (1 for dot, 0 for no dot)
-        boolean[][] braillePatterns = convertToBraillePatterns(sentence);
+        boolean[][] braillePatterns = convertToBraillePatterns(pattern);
 
         // Play each character's pattern
         for (int charIndex = 0; charIndex < braillePatterns.length && isPlaying; charIndex++) {
@@ -53,11 +53,19 @@ public class BrailleButtonController {
         System.out.println(dots.length);
         for (int i = 0; i < 6 && isPlaying; i++) {
             if (dots[i]) {
-                vibrator.vibrate(50);
+                vibrator.vibrate(200);
             } else {
-                vibrator.vibrate(5);
+                vibrator.vibrate(50);
             }
-            Thread.sleep(350);
+            Thread.sleep(600);
+        }
+    }
+
+    private void patternsToVibrations(int[][] patterns) throws InterruptedException {
+        for (int[] word: patterns) {
+            for (int duration: word) {
+                vibrator.vibrate(VIBRATION_DURATION);
+            }
         }
     }
 
