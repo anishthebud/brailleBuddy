@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
         Button startButton = findViewById(R.id.startButton);
         startButton.setOnClickListener(v -> {
             try {
-                controller.playPattern("cdjmz");
+                controller.playPattern("hello i am anish budida");
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
