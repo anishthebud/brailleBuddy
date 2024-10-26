@@ -12,6 +12,8 @@ import android.os.Build;
 import android.os.VibrationEffect;
 import android.view.animation.AccelerateDecelerateInterpolator;
 
+import java.util.concurrent.TimeUnit;
+
 
 public class BrailleButtonController {
     private static final long VIBRATION_DURATION = 50; // milliseconds
@@ -42,9 +44,8 @@ public class BrailleButtonController {
 
         // Play each character's pattern
         for (int charIndex = 0; charIndex < braillePatterns.length && isPlaying; charIndex++) {
-            final int finalCharIndex = charIndex;
-            playCharacter(braillePatterns[finalCharIndex]);
-            Thread.sleep(300);
+            playCharacter(braillePatterns[charIndex]);
+            Thread.sleep(1000);
         }
     }
 
@@ -56,26 +57,9 @@ public class BrailleButtonController {
             } else {
                 vibrator.vibrate(50);
             }
-            Thread.sleep(500);
+            Thread.sleep(600);
         }
     }
-
-    private void vibrate() {
-        int durationFactor = 1;
-
-        // Vibrate
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            vibrator.vibrate(VibrationEffect.createOneShot(VIBRATION_DURATION*durationFactor, VibrationEffect.DEFAULT_AMPLITUDE));
-        } else {
-            vibrator.vibrate(VIBRATION_DURATION);
-        }
-    }
-
-    /**
-    public void playPatterns(String text) throws InterruptedException {
-        patternsToVibrations(convertToBraillePatterns(text));
-    }
-     **/
 
     private void patternsToVibrations(int[][] patterns) throws InterruptedException {
         for (int[] word: patterns) {
