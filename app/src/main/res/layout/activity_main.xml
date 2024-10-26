@@ -11,18 +11,18 @@
 
     <!-- Bottom row buttons -->
 
+    <!-- Start button -->
+
     <Button
         android:id="@+id/button1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:layout_marginStart="56dp"
-        android:layout_marginTop="120dp"
+        android:layout_marginStart="96dp"
+        android:layout_marginTop="84dp"
         android:text="1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <!-- Start button -->
 
     <Button
         android:id="@+id/startButton"
@@ -33,5 +33,13 @@
         android:text="Start Pattern"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/changeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Change Mode"
+        tools:layout_editor_absoluteX="-6dp"
+        tools:layout_editor_absoluteY="640dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
