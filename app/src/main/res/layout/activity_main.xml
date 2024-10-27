@@ -23,7 +23,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/baseline_mic_24" />
+        app:srcCompat="@drawable/baseline_mic_24"
+        tools:ignore="DuplicateIds" />
 
     <TextView
         android:id="@+id/editText"
@@ -53,6 +54,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -115,7 +115,7 @@ import java.util.ArrayList;
                     float deltaY = y2 - y1;
                     if (deltaX > MIN_DISTANCE) {
                         Log.d("SWIPE", "right swipe");
-                        anotherActivity = new Intent();
+                        anotherActivity = new Intent(this, BrailleMappingActivity.class);
                         startActivity(anotherActivity);
                     } else if (deltaX < MIN_DISTANCE*-1) {
                         Log.d("SWIPE", "left swipe");
