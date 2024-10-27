@@ -4,6 +4,7 @@ package com.example.braillebuddy;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -12,10 +13,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import android.os.Vibrator;
 
 public class BrailleMappingActivity extends AppCompatActivity {
+    TextToSpeech textToSpeech;
 
     private boolean[] brailleDots = new boolean[6]; // Stores dot states (on/off)
     private TextView outputTextView; // Display the character output
@@ -64,6 +67,25 @@ public class BrailleMappingActivity extends AppCompatActivity {
         backspaceButton.setOnClickListener(v -> {
             removeCharacter();
         });
+
+        textToSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if(status != TextToSpeech.ERROR) {
+                    textToSpeech.setLanguage(Locale.UK);
+                }
+            }
+        });
+        Button speakButton = findViewById(R.id.speakButton);
+        speakButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                textToSpeech.speak(submittedCharacters.toString().toString(),TextToSpeech.QUEUE_FLUSH,null);
+                submittedCharacters.setLength(0);
+                submittedCharactersTextView.setText(submittedCharacters);
+            }
+        });
+
     }
 
     private void setupButtonListeners() {
