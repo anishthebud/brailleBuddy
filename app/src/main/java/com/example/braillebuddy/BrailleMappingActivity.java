@@ -3,7 +3,6 @@ package com.example.braillebuddy;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -90,11 +89,7 @@ public class BrailleMappingActivity extends AppCompatActivity {
 
     private void displayBrailleCharacter() {
         Character brailleChar = getCharacterFromDots(brailleDots);
-        if (brailleChar != null) {
-            outputTextView.setText(String.valueOf(brailleChar));
-        } else {
-            outputTextView.setText("No match");
-        }
+        outputTextView.setText("");
     }
 
     private Character getCharacterFromDots(boolean[] dots) {
@@ -135,7 +130,7 @@ public class BrailleMappingActivity extends AppCompatActivity {
         brailleToCharMap.put("110011", 'x');
         brailleToCharMap.put("110111", 'y');
         brailleToCharMap.put("100111", 'z');
-        brailleToCharMap.put("111111", ' ');
+        brailleToCharMap.put("000000", ' ');
         // Add more mappings as needed
     }
 
@@ -154,17 +149,20 @@ public class BrailleMappingActivity extends AppCompatActivity {
     }
 
     private void removeCharacter() {
-        vibrator.vibrate(500);
-        submittedCharacters.deleteCharAt(submittedCharacters.length() - 1);
-        submittedCharactersTextView.setText(submittedCharacters.toString());
+        if (submittedCharacters.length() - 1 >= 0) {
+            submittedCharacters.deleteCharAt(submittedCharacters.length() - 1);
+            vibrator.vibrate(300);
+        } else {
+            vibrator.vibrate(500);
+        }
+        String outputText = submittedCharacters.toString();
+        submittedCharactersTextView.setText(outputText);
     }
 
     private void resetButtons() {
-        Log.d("CALL", "reset butttons");
         for (int i = 0; i < brailleDots.length; i++) {
             brailleDots[i] = false; // Reset dot states
             String check = brailleDots[i]  ? "true" : "false";
-            Log.d("STATUS OF DOT", check);
             Button button = findViewById(getResources().getIdentifier("button_dot" + (i + 1), "id", getPackageName()));
             updateButtonAppearance(button, false); // Update button appearance
         }

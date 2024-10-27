@@ -9,119 +9,118 @@
 
     <!-- TextView for submitted characters -->
 
-    <TextView
-        android:id="@+id/outputTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginStart="119dp"
-        android:layout_marginTop="52dp"
-        android:layout_marginEnd="71dp"
-        android:text="Detected Character"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <!-- Submit button -->
-
-    <Button
-        android:id="@+id/button_dot1"
-        android:layout_width="120sp"
-        android:layout_height="120sp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="100dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/button_dot2"
-        android:layout_width="120sp"
-        android:layout_height="120sp"
-        android:layout_marginTop="100dp"
-        android:layout_marginEnd="32dp"
+        android:layout_width="125sp"
+        android:layout_height="125sp"
+        android:layout_marginTop="112dp"
+        android:layout_marginEnd="30dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button_dot1"
+        android:layout_width="125sp"
+        android:layout_height="125sp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="112dp"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/button_dot3"
-        android:layout_width="120sp"
-        android:layout_height="120sp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="7dp"
+        android:layout_width="125sp"
+        android:layout_height="125sp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="24dp"
+        app:layout_constraintBottom_toTopOf="@+id/button_dot5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button_dot1" />
 
     <Button
         android:id="@+id/button_dot4"
-        android:layout_width="120sp"
-        android:layout_height="120sp"
-        android:layout_marginTop="236dp"
-        android:layout_marginEnd="32dp"
+        android:layout_width="125sp"
+        android:layout_height="125sp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="24dp"
+        app:layout_constraintBottom_toTopOf="@+id/button_dot6"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/button_dot2" />
 
     <Button
         android:id="@+id/button_dot5"
-        android:layout_width="120sp"
-        android:layout_height="120sp"
-        android:layout_marginStart="32dp"
-        android:layout_marginBottom="216dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="125sp"
+        android:layout_height="125sp"
+        android:layout_marginStart="30dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/backspaceButton"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/button_dot6"
-        android:layout_width="120sp"
-        android:layout_height="120sp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="216dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="125sp"
+        android:layout_height="125sp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/submitButton"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
         android:id="@+id/submittedCharactersTextView"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginStart="102dp"
-        android:layout_marginEnd="119dp"
-        android:layout_marginBottom="12dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="72dp"
         android:text="Submitted Characters"
         android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/submitButton"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/submitButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="60sp"
+        android:layout_height="60sp"
         android:layout_gravity="center_horizontal"
-        android:layout_marginStart="135dp"
-        android:layout_marginEnd="167dp"
-        android:layout_marginBottom="104dp"
-        android:text="Submit"
+        android:layout_marginEnd="60dp"
+        android:layout_marginBottom="112dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
         android:id="@+id/backspaceButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginBottom="30dp"
-        android:text="Backspace"
+        android:layout_width="60sp"
+        android:layout_height="60sp"
+        android:layout_marginStart="60dp"
+        android:layout_marginBottom="112dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
     <Button
         android:id="@+id/speakButton"
+        android:layout_width="match_parent"
+        android:layout_height="100sp"
+        android:layout_marginTop="4dp"
+        android:text="Speak"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/outputTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Speak" />
-
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
