@@ -86,7 +86,6 @@ import java.util.ArrayList;
             super.onActivityResult(requestCode, resultCode, data);
         }
 
-
         @Override
         protected void onDestroy() {
 
@@ -117,23 +116,10 @@ import java.util.ArrayList;
                         Log.d("SWIPE", "right swipe");
                         anotherActivity = new Intent(this, BrailleMappingActivity.class);
                         startActivity(anotherActivity);
-                        try {
-                            controller.playPattern("K");
-                        } catch (InterruptedException e) {
-                            throw new RuntimeException(e);
-                        }
-
-                    } else if (deltaX < MIN_DISTANCE*-1) {
-                        Log.d("SWIPE", "left swipe");
-                        anotherActivity = new Intent(this, MainActivity.class);
-                        startActivity(anotherActivity);
                     } else if (deltaY > MIN_DISTANCE) {
                         Log.d("SWIPE", "down swipe");
-                        try {
-                            controller.playPattern(matches.get(0));
-                        } catch (InterruptedException e) {
-                            throw new RuntimeException(e);
-                        }
+                        anotherActivity = new Intent(this, BrailleSearch.class);
+                        startActivity(anotherActivity);
                     }
             }
             return super.onTouchEvent(event);

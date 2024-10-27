@@ -3,8 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    
 
     <application
         android:allowBackup="true"
@@ -16,6 +17,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BrailleBuddy"
         tools:targetApi="31">
+        <activity
+            android:name=".BrailleSearch"
+            android:exported="false" />
         <activity
             android:name=".BrailleMappingActivity"
             android:exported="false" />

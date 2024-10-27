@@ -1,59 +1,67 @@
 package com.example.braillebuddy;
 
-
+import android.os.Bundle;
+import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
-import android.speech.tts.TextToSpeech;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-import androidx.appcompat.app.AppCompatActivity;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 import android.os.Vibrator;
+import okhttp3.*;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import java.io.IOException;
 
-public class BrailleMappingActivity extends AppCompatActivity {
-    TextToSpeech textToSpeech;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
-    private boolean[] brailleDots = new boolean[6]; // Stores dot states (on/off)
-    private TextView outputTextView; // Display the character output
-    private TextView submittedCharactersTextView; // Display submitted characters
+public class BrailleSearch extends AppCompatActivity {
+    private boolean isPlaying = false;
+    private static final String OPENAI_API_KEY = "sk-a_yKKSH8BZYSMSULkdmUDLGJ-h805z0DfA1v6hPjCPT3BlbkFJ0CyEijiIzISocoPkuhiLWnnGyxNtzwpm0AIjGPGH4A";
+    private static final String OPENAI_API_URL = "https://api.openai.com/v1/chat/completions";
+    private static final MediaType JSON = MediaType.get("application/json; charset=utf-8");
+
+    private OkHttpClient client;
+    private String gptResponse = ""; // String to store GPT-4's response
+    private boolean[] brailleDots = new boolean[6];
+    private TextView outputTextView;
+    private TextView submittedCharactersTextView;
     private StringBuilder submittedCharacters = new StringBuilder();
-
     private static final int MIN_DISTANCE = 150;
     float x1, x2, y1, y2;
-    Intent anotherActivity;// Store submitted characters
+    Intent anotherActivity;
 
-    // Map for Braille dot patterns to characters
     private Map<String, Character> brailleToCharMap;
     private Vibrator vibrator;
     private BrailleButtonController controller;
 
+    private ExecutorService executorService = Executors.newSingleThreadExecutor();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_braille_keyboard);
+        setContentView(R.layout.activity_braille_search);
+
+        // Initialize OkHttpClient for API calls
+        client = new OkHttpClient();
 
         vibrator = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
         controller = new BrailleButtonController(this);
 
-        // Initialize Braille map
         initBrailleToCharMap();
-
-        // Set up button listeners to toggle dot states
         setupButtonListeners();
 
-        // Initialize the output TextView to show characters
         outputTextView = findViewById(R.id.outputTextView);
         submittedCharactersTextView = findViewById(R.id.submittedCharactersTextView);
 
-        // Set up submit button
         Button submitButton = findViewById(R.id.submitButton);
         submitButton.setOnClickListener(v -> {
             try {
@@ -63,32 +71,104 @@ public class BrailleMappingActivity extends AppCompatActivity {
             }
         });
 
-        // Set up backspace button
         Button backspaceButton = findViewById(R.id.backspaceButton);
-        backspaceButton.setOnClickListener(v -> {
-            removeCharacter();
-        });
+        backspaceButton.setOnClickListener(v -> removeCharacter());
 
-        textToSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+        // Modify the search button (previously speak button)
+        Button searchButton = findViewById(R.id.speakButton);
+        searchButton.setText("Search with GPT-4");
+        searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onInit(int status) {
-                if(status != TextToSpeech.ERROR) {
-                    textToSpeech.setLanguage(Locale.UK);
+            public void onClick(View v) {
+                String searchQuery = submittedCharacters.toString();
+                System.out.println(searchQuery);
+                if (!searchQuery.isEmpty()) {
+                    sendToOpenAIAPI(searchQuery);
+                } else {
+                    Toast.makeText(BrailleSearch.this, "Please enter text to search", Toast.LENGTH_SHORT).show();
+                }
+                System.out.println(gptResponse);
+            }
+        });
+    }
+
+    private void sendToOpenAIAPI(String query) {
+        JSONObject requestBody = new JSONObject();
+        try {
+            requestBody.put("model", "gpt-4o");
+            requestBody.put("max_tokens", 100);
+            JSONArray messages = new JSONArray();
+            messages.put(new JSONObject().put("role", "user").put("content", query));
+            messages.put(new JSONObject().put("role", "system").put("content", "You are acting like a search engine that returns accurate info based on what the user wants. In a concise manner."));
+            requestBody.put("messages", messages);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return;
+        }
+
+        Request request = new Request.Builder()
+                .url(OPENAI_API_URL)
+                .addHeader("Authorization", "Bearer " + OPENAI_API_KEY)
+                .addHeader("Content-Type", "application/json")
+                .post(RequestBody.create(requestBody.toString(), JSON))
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                runOnUiThread(() -> {
+                    Toast.makeText(BrailleSearch.this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                });
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+                    String responseData = response.body().string();
+                    System.out.println("Response Data:");
+                    System.out.println(responseData);
+                    JSONObject jsonResponse = new JSONObject(responseData);
+                    gptResponse = jsonResponse.getJSONArray("choices")
+                            .getJSONObject(0)
+                            .getJSONObject("message")
+                            .getString("content");
+
+                    // Clear the submitted characters after successful search
+                    runOnUiThread(() -> {
+                        Log.d("GPT-4 Response", gptResponse);
+                        System.out.println(gptResponse);
+                        outputTextView.setText(gptResponse); // Update UI with response
+                        executorService.submit(() -> {
+                            submittedCharacters.setLength(0);
+                            if (controller != null) {
+                                controller.stop();
+                            }
+                            try {
+                                submittedCharacters.setLength(0);
+                                submittedCharactersTextView.setText(submittedCharacters);
+                                controller.playPattern(gptResponse);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        });
+                    });
+                } catch (Exception e) {
+                    runOnUiThread(() -> Toast.makeText(BrailleSearch.this, "Error processing response", Toast.LENGTH_LONG).show());
                 }
             }
         });
-        Button speakButton = findViewById(R.id.speakButton);
-        speakButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                textToSpeech.speak(submittedCharacters.toString().toString(),TextToSpeech.QUEUE_FLUSH,null);
-                submittedCharacters.setLength(0);
-                submittedCharactersTextView.setText(submittedCharacters);
-            }
-        });
-
     }
+    protected void onDestroy() {
 
+        super.onDestroy();
+        if (controller != null) {
+            controller.stop();
+        }
+
+        if (executorService != null) {
+            executorService.shutdownNow(); // Shutdown the executor service
+        }
+    }
     private void setupButtonListeners() {
         Button[] buttons = new Button[] {
                 findViewById(R.id.button_dot1),
@@ -102,6 +182,9 @@ public class BrailleMappingActivity extends AppCompatActivity {
         for (int i = 0; i < buttons.length; i++) {
             final int index = i;
             buttons[i].setOnClickListener(v -> {
+                if (controller != null) {
+                    controller.stop();
+                }
                 // Toggle dot state
                 brailleDots[index] = !brailleDots[index];
                 // Update button appearance based on new state
@@ -211,16 +294,17 @@ public class BrailleMappingActivity extends AppCompatActivity {
                 y2 = event.getY();
                 float deltaX = x2 - x1;
                 float deltaY = y2 - y1;
-                if (deltaX < MIN_DISTANCE*-1) {
+                if (deltaX > MIN_DISTANCE) {
+                    Log.d("SWIPE", "right swipe");
+                    anotherActivity = new Intent(this, BrailleMappingActivity.class);
+                    startActivity(anotherActivity);
+                } else if (deltaX < MIN_DISTANCE*-1) {
                     Log.d("SWIPE", "left swipe");
                     anotherActivity = new Intent(this, MainActivity.class);
-                    startActivity(anotherActivity);
-                } else if (deltaY > MIN_DISTANCE) {
-                    Log.d("SWIPE", "down swipe");
-                    anotherActivity = new Intent(this, BrailleSearch.class);
                     startActivity(anotherActivity);
                 }
         }
         return super.onTouchEvent(event);
     }
+
 }
