@@ -215,10 +215,16 @@ public class BrailleMappingActivity extends AppCompatActivity {
                     Log.d("SWIPE", "left swipe");
                     anotherActivity = new Intent(this, MainActivity.class);
                     startActivity(anotherActivity);
+                    if (controller != null) {
+                        controller.stop();
+                    }
                 } else if (deltaY > MIN_DISTANCE) {
                     Log.d("SWIPE", "down swipe");
                     anotherActivity = new Intent(this, BrailleSearch.class);
                     startActivity(anotherActivity);
+                    if (controller != null) {
+                        controller.stop();
+                    }
                 }
         }
         return super.onTouchEvent(event);

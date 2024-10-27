@@ -116,10 +116,16 @@ import java.util.ArrayList;
                         Log.d("SWIPE", "right swipe");
                         anotherActivity = new Intent(this, BrailleMappingActivity.class);
                         startActivity(anotherActivity);
+                        if (controller != null) {
+                            controller.stop();
+                        }
                     } else if (deltaY > MIN_DISTANCE) {
                         Log.d("SWIPE", "down swipe");
                         anotherActivity = new Intent(this, BrailleSearch.class);
                         startActivity(anotherActivity);
+                        if (controller != null) {
+                            controller.stop();
+                        }
                     }
             }
             return super.onTouchEvent(event);

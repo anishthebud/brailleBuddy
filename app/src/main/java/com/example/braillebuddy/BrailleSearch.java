@@ -2,6 +2,8 @@ package com.example.braillebuddy;
 
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.compose.foundation.content.MediaType;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
@@ -298,10 +300,16 @@ public class BrailleSearch extends AppCompatActivity {
                     Log.d("SWIPE", "right swipe");
                     anotherActivity = new Intent(this, BrailleMappingActivity.class);
                     startActivity(anotherActivity);
+                    if (controller != null) {
+                        controller.stop();
+                    }
                 } else if (deltaX < MIN_DISTANCE*-1) {
                     Log.d("SWIPE", "left swipe");
                     anotherActivity = new Intent(this, MainActivity.class);
                     startActivity(anotherActivity);
+                    if (controller != null) {
+                        controller.stop();
+                    }
                 }
         }
         return super.onTouchEvent(event);
