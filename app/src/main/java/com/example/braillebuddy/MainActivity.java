@@ -127,11 +127,6 @@ import java.util.ArrayList;
                         Log.d("SWIPE", "left swipe");
                         anotherActivity = new Intent(this, MainActivity.class);
                         startActivity(anotherActivity);
-                        try {
-                            controller.playPattern("C");
-                        } catch (InterruptedException e) {
-                            throw new RuntimeException(e);
-                        }
                     } else if (deltaY > MIN_DISTANCE) {
                         Log.d("SWIPE", "down swipe");
                         try {

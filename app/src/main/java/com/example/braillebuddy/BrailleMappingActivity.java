@@ -2,7 +2,10 @@ package com.example.braillebuddy;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -17,7 +20,11 @@ public class BrailleMappingActivity extends AppCompatActivity {
     private boolean[] brailleDots = new boolean[6]; // Stores dot states (on/off)
     private TextView outputTextView; // Display the character output
     private TextView submittedCharactersTextView; // Display submitted characters
-    private StringBuilder submittedCharacters = new StringBuilder(); // Store submitted characters
+    private StringBuilder submittedCharacters = new StringBuilder();
+
+    private static final int MIN_DISTANCE = 150;
+    float x1, x2, y1, y2;
+    Intent anotherActivity;// Store submitted characters
 
     // Map for Braille dot patterns to characters
     private Map<String, Character> brailleToCharMap;
@@ -167,5 +174,27 @@ public class BrailleMappingActivity extends AppCompatActivity {
             updateButtonAppearance(button, false); // Update button appearance
         }
         outputTextView.setText(""); // Clear output text
+    }
+
+    public boolean onTouchEvent(MotionEvent event) {
+        switch(event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                x1 = event.getX();
+                y1 = event.getY();
+                break;
+            case MotionEvent.ACTION_UP:
+                x2 = event.getX();
+                y2 = event.getY();
+                float deltaX = x2 - x1;
+                float deltaY = y2 - y1;
+                if (deltaX < MIN_DISTANCE*-1) {
+                    Log.d("SWIPE", "left swipe");
+                    anotherActivity = new Intent(this, MainActivity.class);
+                    startActivity(anotherActivity);
+                } else if (deltaY > MIN_DISTANCE) {
+                    Log.d("SWIPE", "down swipe");
+                }
+        }
+        return super.onTouchEvent(event);
     }
 }
