@@ -29,6 +29,7 @@ import java.util.ArrayList;
         private static final int RECOGNIZER_RESULT = 1;
         private static final int MIN_DISTANCE = 150;
         float x1, x2, y1, y2;
+        Intent anotherActivity;
 
 
         ArrayList<String> matches;
@@ -114,8 +115,12 @@ import java.util.ArrayList;
                     float deltaY = y2 - y1;
                     if (deltaX > MIN_DISTANCE) {
                         Log.d("SWIPE", "right swipe");
+                        anotherActivity = new Intent();
+                        startActivity(anotherActivity);
                     } else if (deltaX < MIN_DISTANCE*-1) {
                         Log.d("SWIPE", "left swipe");
+                        anotherActivity = new Intent(this, MainActivity.class);
+                        startActivity(anotherActivity);
                     } else if (deltaY > MIN_DISTANCE) {
                         Log.d("SWIPE", "down swipe");
                     }
