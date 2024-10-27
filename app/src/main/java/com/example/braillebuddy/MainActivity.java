@@ -3,6 +3,8 @@ package com.example.braillebuddy;  // Replace with your actual package name
 import android.content.Intent;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,6 +27,8 @@ import java.util.ArrayList;
         TextView textView;
 
         private static final int RECOGNIZER_RESULT = 1;
+        private static final int MIN_DISTANCE = 150;
+        float x1, x2, y1, y2;
 
 
         ArrayList<String> matches;
@@ -96,5 +100,26 @@ import java.util.ArrayList;
         }
 
 
-
+        @Override
+        public boolean onTouchEvent(MotionEvent event) {
+            switch(event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    x1 = event.getX();
+                    y1 = event.getY();
+                    break;
+                case MotionEvent.ACTION_UP:
+                    x2 = event.getX();
+                    y2 = event.getY();
+                    float deltaX = x2 - x1;
+                    float deltaY = y2 - y1;
+                    if (deltaX > MIN_DISTANCE) {
+                        Log.d("SWIPE", "right swipe");
+                    } else if (deltaX < MIN_DISTANCE*-1) {
+                        Log.d("SWIPE", "left swipe");
+                    } else if (deltaY > MIN_DISTANCE) {
+                        Log.d("SWIPE", "down swipe");
+                    }
+            }
+            return super.onTouchEvent(event);
+        }
 }
