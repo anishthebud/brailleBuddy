@@ -14,8 +14,8 @@
         android:id="@+id/button_dot2"
         android:layout_width="125sp"
         android:layout_height="125sp"
-        android:layout_marginTop="112dp"
-        android:layout_marginEnd="30dp"
+        android:layout_marginTop="128dp"
+        android:layout_marginEnd="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -23,8 +23,8 @@
         android:id="@+id/button_dot1"
         android:layout_width="125sp"
         android:layout_height="125sp"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="112dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="128dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -35,6 +35,7 @@
         android:layout_marginStart="30dp"
         android:layout_marginTop="24dp"
         android:layout_marginBottom="24dp"
+        app:iconTint="#673AB7"
         app:layout_constraintBottom_toTopOf="@+id/button_dot5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button_dot1" />
@@ -54,8 +55,8 @@
         android:id="@+id/button_dot5"
         android:layout_width="125sp"
         android:layout_height="125sp"
-        android:layout_marginStart="30dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginBottom="28dp"
         app:layout_constraintBottom_toTopOf="@+id/backspaceButton"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -63,8 +64,8 @@
         android:id="@+id/button_dot6"
         android:layout_width="125sp"
         android:layout_height="125sp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="28dp"
         app:layout_constraintBottom_toTopOf="@+id/submitButton"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -75,29 +76,30 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
-        android:layout_marginBottom="72dp"
+        android:layout_marginBottom="8dp"
         android:text="Submitted Characters"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/submitButton"
-        android:layout_width="60sp"
-        android:layout_height="60sp"
+        android:layout_width="125dp"
+        android:layout_height="76dp"
         android:layout_gravity="center_horizontal"
-        android:layout_marginEnd="60dp"
-        android:layout_marginBottom="112dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="40dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
         android:id="@+id/backspaceButton"
-        android:layout_width="60sp"
-        android:layout_height="60sp"
-        android:layout_marginStart="60dp"
-        android:layout_marginBottom="112dp"
+        android:layout_width="125sp"
+        android:layout_height="75sp"
+        android:layout_marginStart="20dp"
+        android:layout_marginBottom="40dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 

@@ -17,42 +17,32 @@
         android:id="@+id/imageView"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:layout_marginStart="130dp"
-        android:layout_marginEnd="130dp"
-        android:layout_marginBottom="128dp"
+        android:layout_marginBottom="252dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/baseline_mic_24"
-        tools:ignore="DuplicateIds" />
+        tools:ignore="DuplicateIds"
+        android:textColor="@color/white"/>
 
     <TextView
         android:id="@+id/editText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="52dp"
-        android:layout_marginTop="204dp"
+        android:layout_marginTop="172dp"
         android:layout_marginEnd="52dp"
         android:hint="Speech to text"
-        android:inputType="textPersonName"
+        android:fontFamily="sans-serif-medium"
         android:textSize="20sp"
+        android:scrollHorizontally="false"
+        android:maxLines="5"
+        android:ellipsize="end"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="52dp"
-        android:layout_marginTop="92dp"
-        android:layout_marginEnd="52dp"
-        android:text="Speech To Braille"
-        android:textAlignment="center"
-        android:textSize="40sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

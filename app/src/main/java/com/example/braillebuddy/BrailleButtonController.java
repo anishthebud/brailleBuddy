@@ -21,6 +21,8 @@ public class BrailleButtonController {
     private static final float SCALE_FACTOR = 1.2f; // how much the button grows
     private static final int ANIMATION_DURATION = 200; // milliseconds
 
+    private double speedMult = 1.0;
+
     private final Context context;
     private final Vibrator vibrator;
     private final Handler handler;
@@ -60,14 +62,14 @@ public class BrailleButtonController {
         }
         for (int i = 0; i < 6 && isPlaying; i++) {
             if (isSpace) {
-                vibrator.vibrate(100);
+                vibrator.vibrate((long) (speedMult*100));
             } else {
                 if (dots[i]) {
-                    vibrator.vibrate(200);
+                    vibrator.vibrate((long)(speedMult*200));
                 } else {
-                    vibrator.vibrate(50);
+                    vibrator.vibrate((long)(speedMult*50));
                 }
-                Thread.sleep(350);
+                Thread.sleep((long) (speedMult*350));
             }
         }
     }
