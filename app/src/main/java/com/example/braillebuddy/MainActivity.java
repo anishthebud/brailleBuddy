@@ -22,7 +22,7 @@ import java.util.ArrayList;
     public class MainActivity extends AppCompatActivity {
         private BrailleButtonController controller;
         ImageView speechButton;
-        EditText editView;
+        TextView textView;
 
         private static final int RECOGNIZER_RESULT = 1;
 
@@ -40,7 +40,7 @@ import java.util.ArrayList;
 
 
             speechButton = findViewById(R.id.imageView);
-            editView =  findViewById(R.id.editText);
+            textView =  findViewById(R.id.editText);
 
 
             speechButton.setOnClickListener(v -> {
@@ -65,7 +65,7 @@ import java.util.ArrayList;
             if (requestCode == RECOGNIZER_RESULT && resultCode == RESULT_OK) {
 
                 matches = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-                editView.setText(matches.get(0).toString());
+                textView.setText(matches.get(0).toString());
 
                 controller = new BrailleButtonController(this);
 
